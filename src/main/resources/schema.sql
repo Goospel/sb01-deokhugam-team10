@@ -51,7 +51,6 @@ CREATE TABLE review (
 CREATE TABLE comment (
   comment_id     BIGINT     NOT NULL,
   review_id      BIGINT     NOT NULL,
-  book_id        BIGINT     NOT NULL,
   user_id        BIGINT     NOT NULL,
   content        TEXT       NOT NULL,
   created_at     TIMESTAMP  NOT NULL,
