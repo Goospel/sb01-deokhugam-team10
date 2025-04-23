@@ -1,7 +1,6 @@
 package com.example.deokhugam_team10.book.entity;
 
 import jakarta.persistence.*;
-import java.util.UUID;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -17,7 +16,7 @@ public class Book {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private UUID bookId;
+  private Long bookId;
 
   private String title;
   private String author;
