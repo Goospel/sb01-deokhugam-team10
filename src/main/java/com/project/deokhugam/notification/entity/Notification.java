@@ -1,13 +1,11 @@
 package com.project.deokhugam.notification.entity;
 
-import java.time.LocalDateTime;
-import java.util.UUID;
-
-import jakarta.persistence.*;
-
 import com.project.deokhugam.user.entity.User;
+import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 
 @Entity

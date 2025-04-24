@@ -1,20 +1,11 @@
 package com.project.deokhugam.book.entity;
 
-import java.time.LocalDateTime;
-import java.util.UUID;
-
+import jakarta.persistence.*;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -25,29 +16,29 @@ import lombok.Setter;
 @Table(name = "book")
 public class Book {
 
-	@Id
-	@GeneratedValue(generator = "UUID")
-	@GenericGenerator(
-		name = "UUID",
-		strategy = "org.hibernate.id.UUIDGenerator"
-	)
-	@Column(name = "book_id", updatable = false, nullable = false)
-	private UUID bookId;
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    @Column(name = "book_id", updatable = false, nullable = false)
+    private UUID bookId;
 
-	private String title;
-	private String author;
+    private String title;
+    private String author;
 
-	private String description;
+    private String description;
 
-	private String publisher;
-	private LocalDateTime publishedDate;
-	private String isbn;
-	private String thumbnailUrl;
-	private String thumbnailImage;
-	private Long reviewCount;
-	private Long bookRating;
-	private LocalDateTime createdAt;
-	private LocalDateTime updatedAt;
-	private Long bookRank;
-	private Long bookScore;
+    private String publisher;
+    private LocalDateTime publishedDate;
+    private String isbn;
+    private String thumbnailUrl;
+    private String thumbnailImage;
+    private Long reviewCount;
+    private Long bookRating;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+    private Long bookRank;
+    private Long bookScore;
 }
