@@ -23,29 +23,29 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name = "review")
 public class Review {
 
-	@Id
-	@GeneratedValue(generator = "UUID")
-	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-	@Column(name = "review_id", updatable = false, nullable = false)
-	private UUID reviewId;
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(name = "review_id", updatable = false, nullable = false)
+    private UUID reviewId;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "book_id")
-	private Book book;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "book_id")
+    private Book book;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id")
-	private User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
-	private String reviewContent;
+    private String reviewContent;
 
-	private Long likeCount;
-	private Long commentCount;
-	private Long reviewRating;
-	private LocalDateTime createdAt;
-	private LocalDateTime updatedAt;
-	private Long reviewRank;
-	private Long reviewScore;
-	private Boolean liked;
+    private Long likeCount;
+    private Long commentCount;
+    private Long reviewRating;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+    private Long reviewRank;
+    private Long reviewScore;
+    private Boolean liked;
 }
 

@@ -31,64 +31,64 @@ import lombok.Setter;
 @Table(name = "dashboard")
 public class Dashboard {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private UUID id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private UUID id;
 
-	@Column(nullable = false)
-	private String type;
+    @Column(nullable = false)
+    private String type;
 
-	@Column(nullable = false)
-	private String period;
+    @Column(nullable = false)
+    private String period;
 
-	@Column(nullable = false)
-	private String targetId;
+    @Column(nullable = false)
+    private String targetId;
 
-	@Column(name = "book_id", insertable = false, updatable = false)
-	private UUID bookId;
+    @Column(name = "book_id", insertable = false, updatable = false)
+    private UUID bookId;
 
-	@Column(name = "user_id", insertable = false, updatable = false)
-	private UUID userId;
+    @Column(name = "user_id", insertable = false, updatable = false)
+    private UUID userId;
 
-	@Column(name = "review_id", insertable = false, updatable = false)
-	private UUID reviewId;
+    @Column(name = "review_id", insertable = false, updatable = false)
+    private UUID reviewId;
 
-	@Column(nullable = false)
-	private Double score;
+    @Column(nullable = false)
+    private Double score;
 
-	@Column(nullable = false)
-	private Long rank;
+    @Column(nullable = false)
+    private Long rank;
 
-	@Column(nullable = false)
-	private Long likeCount;
+    @Column(nullable = false)
+    private Long likeCount;
 
-	@Column(nullable = false)
-	private Long commentCount;
+    @Column(nullable = false)
+    private Long commentCount;
 
-	@Column(nullable = false)
-	private Long reviewCount;
+    @Column(nullable = false)
+    private Long reviewCount;
 
-	@Column(nullable = false)
-	private Double reviewRating;
+    @Column(nullable = false)
+    private Double reviewRating;
 
-	@Column(nullable = false)
-	private Double reviewScoreSum;
+    @Column(nullable = false)
+    private Double reviewScoreSum;
 
-	@Column(nullable = false)
-	private LocalDateTime createdAt;
+    @Column(nullable = false)
+    private LocalDateTime createdAt;
 
-	@Column(nullable = false)
-	private LocalDateTime updatedAt;
+    @Column(nullable = false)
+    private LocalDateTime updatedAt;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id", referencedColumnName = "user_id", insertable = false, updatable = false)
-	private User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id", insertable = false, updatable = false)
+    private User user;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "book_id", referencedColumnName = "book_id", insertable = false, updatable = false)
-	private Book book;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "book_id", referencedColumnName = "book_id", insertable = false, updatable = false)
+    private Book book;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "review_id", referencedColumnName = "review_id", insertable = false, updatable = false)
-	private Review review;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "review_id", referencedColumnName = "review_id", insertable = false, updatable = false)
+    private Review review;
 }

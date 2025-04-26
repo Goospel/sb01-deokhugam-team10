@@ -25,29 +25,29 @@ import lombok.Setter;
 @Table(name = "book")
 public class Book {
 
-	@Id
-	@GeneratedValue(generator = "UUID")
-	@GenericGenerator(
-		name = "UUID",
-		strategy = "org.hibernate.id.UUIDGenerator"
-	)
-	@Column(name = "book_id", updatable = false, nullable = false)
-	private UUID bookId;
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    @Column(name = "book_id", updatable = false, nullable = false)
+    private UUID bookId;
 
-	private String title;
-	private String author;
+    private String title;
+    private String author;
 
-	private String description;
+    private String description;
 
-	private String publisher;
-	private LocalDateTime publishedDate;
-	private String isbn;
-	private String thumbnailUrl;
-	private String thumbnailImage;
-	private Long reviewCount;
-	private Long bookRating;
-	private LocalDateTime createdAt;
-	private LocalDateTime updatedAt;
-	private Long bookRank;
-	private Long bookScore;
+    private String publisher;
+    private LocalDateTime publishedDate;
+    private String isbn;
+    private String thumbnailUrl;
+    private String thumbnailImage;
+    private Long reviewCount;
+    private Long bookRating;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+    private Long bookRank;
+    private Long bookScore;
 }
