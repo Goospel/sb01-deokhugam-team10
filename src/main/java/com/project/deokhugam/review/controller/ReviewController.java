@@ -1,9 +1,6 @@
 package com.project.deokhugam.review.controller;
 
-import com.project.deokhugam.review.dto.ReviewCreateRequest;
-import com.project.deokhugam.review.dto.ReviewDto;
-import com.project.deokhugam.review.dto.ReviewLikeDto;
-import com.project.deokhugam.review.dto.ReviewUpdateRequest;
+import com.project.deokhugam.review.dto.*;
 import com.project.deokhugam.review.service.ReviewService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -61,7 +58,7 @@ public class ReviewController {
             @RequestHeader("Deokhugam-Request-User-ID") UUID requestUserId
     ) {
         reviewService.deleteReview(reviewId, requestUserId);
-        return ResponseEntity.noContent().build(); // 204 No Content
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{reviewId}/hard")
@@ -70,7 +67,16 @@ public class ReviewController {
             @RequestHeader("Deokhugam-Request-User-ID") UUID requestUserId
     ) {
         reviewService.hardDeleteReview(reviewId, requestUserId);
-        return ResponseEntity.noContent().build(); // 204 No Content
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<CursorPageResponseReviewDto> searchReviews(
+            ReviewSearchRequest request,
+            @RequestHeader("Deokhugam-Request-User-ID") UUID requestHeaderUserId
+    ) {
+        CursorPageResponseReviewDto response = reviewService.searchReviews(request, requestHeaderUserId);
+        return ResponseEntity.ok(response);
     }
 
 }

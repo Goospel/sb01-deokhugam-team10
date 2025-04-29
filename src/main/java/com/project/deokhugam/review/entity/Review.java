@@ -36,7 +36,7 @@ public class Review {
 
     private Long likeCount;
     private Long commentCount;
-    private Long reviewRating;
+    private Long rating;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private Long reviewRank;

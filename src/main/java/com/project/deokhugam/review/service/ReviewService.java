@@ -4,22 +4,23 @@ import com.project.deokhugam.book.entity.Book;
 import com.project.deokhugam.book.repository.BookRepository;
 import com.project.deokhugam.global.exception.CustomException;
 import com.project.deokhugam.global.exception.ErrorCode;
-import com.project.deokhugam.review.dto.ReviewCreateRequest;
-import com.project.deokhugam.review.dto.ReviewDto;
-import com.project.deokhugam.review.dto.ReviewLikeDto;
-import com.project.deokhugam.review.dto.ReviewUpdateRequest;
+import com.project.deokhugam.review.dto.*;
 import com.project.deokhugam.review.entity.Review;
 import com.project.deokhugam.review.mapper.ReviewMapper;
 import com.project.deokhugam.review.repository.ReviewRepository;
 import com.project.deokhugam.user.entity.User;
 import com.project.deokhugam.user.repository.UserRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
+
 
 @Slf4j
 @Service
@@ -92,7 +93,7 @@ public class ReviewService {
 
         // 3. 수정 진행
         review.setReviewContent(request.content());
-        review.setReviewRating(request.rating().longValue()); // Integer를 Long으로 변환
+        review.setRating(request.rating().longValue()); // Integer를 Long으로 변환
         review.setUpdatedAt(LocalDateTime.now());
 
         // 4. 저장
@@ -135,8 +136,44 @@ public class ReviewService {
         reviewRepository.delete(review);
     }
 
+    @Transactional(readOnly = true)
+    public CursorPageResponseReviewDto searchReviews(ReviewSearchRequest request, UUID requestHeaderUserId) {
+        // 1. 파라미터 준비
+        String orderBy = Optional.ofNullable(request.orderBy()).orElse("createdAt");
+        String direction = Optional.ofNullable(request.direction()).orElse("DESC");
+        int limit = Optional.ofNullable(request.limit()).orElse(50);
 
+        UUID userId = request.userId();
+        UUID bookId = request.bookId();
+        String keyword = request.keyword();
+        String cursor = request.cursor();
+        String after = request.after();
+        UUID requestUserId = request.requestUserId();
 
+        // 2. Repository 호출
+        List<Review> reviews = reviewRepository.searchReviews(
+                userId, bookId, keyword, orderBy, direction, cursor, after, limit
+        );
 
+        // 3. Mapper로 변환
+        List<ReviewDto> reviewDtos = reviews.stream()
+                .map(review -> reviewMapper.toDto(review, requestHeaderUserId))
+                .toList();
+
+        // 4. nextCursor, nextAfter 계산
+        boolean hasNext = reviewDtos.size() == limit;
+        String nextCursor = hasNext ? reviewDtos.get(reviewDtos.size() - 1).id().toString() : null;
+        LocalDateTime nextAfter = hasNext ? reviewDtos.get(reviewDtos.size() - 1).createdAt() : null;
+
+        // 5. 응답 포맷팅
+        return new CursorPageResponseReviewDto(
+                reviewDtos,
+                nextCursor,
+                nextAfter,
+                reviewDtos.size(),
+                0L, // totalElements는 아직 계산 안 함
+                hasNext
+        );
+    }
 
 }
