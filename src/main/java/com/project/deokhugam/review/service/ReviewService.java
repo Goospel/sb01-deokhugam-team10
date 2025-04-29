@@ -6,6 +6,7 @@ import com.project.deokhugam.global.exception.CustomException;
 import com.project.deokhugam.global.exception.ErrorCode;
 import com.project.deokhugam.review.dto.ReviewCreateRequest;
 import com.project.deokhugam.review.dto.ReviewDto;
+import com.project.deokhugam.review.dto.ReviewLikeDto;
 import com.project.deokhugam.review.entity.Review;
 import com.project.deokhugam.review.mapper.ReviewMapper;
 import com.project.deokhugam.review.repository.ReviewRepository;
@@ -15,6 +16,9 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -39,5 +43,27 @@ public class ReviewService {
         Review saved = reviewRepository.save(review);
 
         return reviewMapper.toDto(saved);
+    }
+
+    @Transactional
+    public ReviewLikeDto likeReview(UUID reviewId, UUID requestUserId) {
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new CustomException(ErrorCode.RESOURCE_NOT_FOUND));
+
+        if (Boolean.TRUE.equals(review.getLiked())) {
+            review.setLiked(false);
+            review.setLikeCount(review.getLikeCount() - 1);
+        } else {
+            review.setLiked(true);
+            review.setLikeCount(review.getLikeCount() + 1);
+        }
+
+        reviewRepository.save(review);
+
+        return new ReviewLikeDto(
+                review.getReviewId(),
+                review.getUser().getUserId(),
+                review.getLiked()
+        );
     }
 }
