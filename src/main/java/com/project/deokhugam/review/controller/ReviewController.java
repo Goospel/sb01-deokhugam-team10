@@ -55,4 +55,13 @@ public class ReviewController {
         return ResponseEntity.ok(review);
     }
 
+    @DeleteMapping("/{reviewId}")
+    public ResponseEntity<Void> deleteReview(
+            @PathVariable UUID reviewId,
+            @RequestHeader("Deokhugam-Request-User-ID") UUID requestUserId
+    ) {
+        reviewService.deleteReview(reviewId, requestUserId);
+        return ResponseEntity.noContent().build(); // 204 No Content
+    }
+
 }

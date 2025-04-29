@@ -102,6 +102,26 @@ public class ReviewService {
         return reviewMapper.toDto(updated, requestUserId);
     }
 
+    @Transactional
+    public void deleteReview(UUID reviewId, UUID requestUserId) {
+        // 1. 리뷰 조회
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new CustomException(ErrorCode.RESOURCE_NOT_FOUND));
+
+        // 2. 권한 체크 (리뷰 작성자만 삭제 가능)
+        if (!review.getUser().getUserId().equals(requestUserId)) {
+            throw new CustomException(ErrorCode.RESOURCE_NOT_FOUND); // 403
+        }
+
+        // 3. 논리 삭제 처리
+        review.setDeleted(true);
+        review.setUpdatedAt(LocalDateTime.now());
+
+        reviewRepository.save(review);
+    }
+
+
+
 
 
 }

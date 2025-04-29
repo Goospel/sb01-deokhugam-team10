@@ -42,5 +42,8 @@ public class Review {
     private Long reviewRank;
     private Long reviewScore;
     private Boolean liked;
+
+    @Column(nullable = false)
+    private boolean deleted = false;
 }
 
