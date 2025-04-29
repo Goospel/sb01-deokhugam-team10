@@ -64,4 +64,13 @@ public class ReviewController {
         return ResponseEntity.noContent().build(); // 204 No Content
     }
 
+    @DeleteMapping("/{reviewId}/hard")
+    public ResponseEntity<Void> hardDeleteReview(
+            @PathVariable UUID reviewId,
+            @RequestHeader("Deokhugam-Request-User-ID") UUID requestUserId
+    ) {
+        reviewService.hardDeleteReview(reviewId, requestUserId);
+        return ResponseEntity.noContent().build(); // 204 No Content
+    }
+
 }

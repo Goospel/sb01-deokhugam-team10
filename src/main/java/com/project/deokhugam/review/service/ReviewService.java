@@ -120,6 +120,21 @@ public class ReviewService {
         reviewRepository.save(review);
     }
 
+    @Transactional
+    public void hardDeleteReview(UUID reviewId, UUID requestUserId) {
+        // 1. 리뷰 조회
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new CustomException(ErrorCode.RESOURCE_NOT_FOUND));
+
+        // 2. 권한 체크
+        if (!review.getUser().getUserId().equals(requestUserId)) {
+            throw new CustomException(ErrorCode.RESOURCE_NOT_FOUND);
+        }
+
+        // 3. 리뷰 삭제
+        reviewRepository.delete(review);
+    }
+
 
 
 
