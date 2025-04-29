@@ -7,6 +7,7 @@ import com.project.deokhugam.global.exception.ErrorCode;
 import com.project.deokhugam.review.dto.ReviewCreateRequest;
 import com.project.deokhugam.review.dto.ReviewDto;
 import com.project.deokhugam.review.dto.ReviewLikeDto;
+import com.project.deokhugam.review.dto.ReviewUpdateRequest;
 import com.project.deokhugam.review.entity.Review;
 import com.project.deokhugam.review.mapper.ReviewMapper;
 import com.project.deokhugam.review.repository.ReviewRepository;
@@ -17,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Slf4j
@@ -76,4 +78,30 @@ public class ReviewService {
         // 2. 리뷰 엔티티를 DTO로 변환 (요청자 ID 기반 likedByMe 세팅)
         return reviewMapper.toDto(review, requestUserId);
     }
+
+    @Transactional
+    public ReviewDto updateReview(UUID reviewId, UUID requestUserId, ReviewUpdateRequest request) {
+        // 1. 리뷰 찾기
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new CustomException(ErrorCode.RESOURCE_NOT_FOUND));
+
+        // 2. 권한 체크 (리뷰 작성자 본인만 수정 가능)
+        if (!review.getUser().getUserId().equals(requestUserId)) {
+            throw new CustomException(ErrorCode.RESOURCE_NOT_FOUND); // 403 에러
+        }
+
+        // 3. 수정 진행
+        review.setReviewContent(request.content());
+        review.setReviewRating(request.rating().longValue()); // Integer를 Long으로 변환
+        review.setUpdatedAt(LocalDateTime.now());
+
+        // 4. 저장
+        Review updated = reviewRepository.save(review);
+
+        // 5. DTO로 변환해서 반환
+        return reviewMapper.toDto(updated, requestUserId);
+    }
+
+
+
 }

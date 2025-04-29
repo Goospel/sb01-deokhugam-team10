@@ -3,7 +3,9 @@ package com.project.deokhugam.review.controller;
 import com.project.deokhugam.review.dto.ReviewCreateRequest;
 import com.project.deokhugam.review.dto.ReviewDto;
 import com.project.deokhugam.review.dto.ReviewLikeDto;
+import com.project.deokhugam.review.dto.ReviewUpdateRequest;
 import com.project.deokhugam.review.service.ReviewService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,6 +42,16 @@ public class ReviewController {
             @RequestHeader("Deokhugam-Request-User-ID") UUID requestUserId
     ) {
         ReviewDto review = reviewService.findReview(reviewId, requestUserId);
+        return ResponseEntity.ok(review);
+    }
+
+    @PatchMapping("/{reviewId}")
+    public ResponseEntity<ReviewDto> updateReview(
+            @PathVariable UUID reviewId,
+            @RequestHeader("Deokhugam-Request-User-ID") UUID requestUserId,
+            @RequestBody @Valid ReviewUpdateRequest request
+    ) {
+        ReviewDto review = reviewService.updateReview(reviewId, requestUserId, request);
         return ResponseEntity.ok(review);
     }
 
