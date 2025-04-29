@@ -33,4 +33,14 @@ public class ReviewController {
         ReviewLikeDto response = reviewService.likeReview(reviewId, requestUserId);
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/{reviewId}")
+    public ResponseEntity<ReviewDto> findReview(
+            @PathVariable UUID reviewId,
+            @RequestHeader("Deokhugam-Request-User-ID") UUID requestUserId
+    ) {
+        ReviewDto review = reviewService.findReview(reviewId, requestUserId);
+        return ResponseEntity.ok(review);
+    }
+
 }

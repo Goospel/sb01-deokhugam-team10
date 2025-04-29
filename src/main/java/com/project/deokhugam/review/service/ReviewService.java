@@ -66,4 +66,14 @@ public class ReviewService {
                 review.getLiked()
         );
     }
+
+    @Transactional
+    public ReviewDto findReview(UUID reviewId, UUID requestUserId) {
+        // 1. 리뷰 조회
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new CustomException(ErrorCode.RESOURCE_NOT_FOUND));
+
+        // 2. 리뷰 엔티티를 DTO로 변환 (요청자 ID 기반 likedByMe 세팅)
+        return reviewMapper.toDto(review, requestUserId);
+    }
 }
