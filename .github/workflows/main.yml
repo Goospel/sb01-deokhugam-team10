@@ -8,7 +8,7 @@ on:
 
 env:
   AWS_REGION:                      ap-northeast-2
-  AWS_S3_BUCKET:                   deokhugam
+  AWS_S3_BUCKET:                   deockhugam
   AWS_CODE_DEPLOY_APPLICATION:     deokhugam-codedeploy
   AWS_CODE_DEPLOY_GROUP:           deokhugam-application
 
