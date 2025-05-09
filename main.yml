@@ -59,8 +59,13 @@ jobs:
 
       # 6) ZIP 파일 생성
       - name: Make zip file
-        run: zip -r ${GITHUB_SHA}.zip .
+        run: |
+          zip -r deployment.zip \
+            appspec.yml \
+            scripts \
+            build/libs
         shell: bash
+
 
       # 7) AWS 자격증명 설정
       - name: AWS credential 설정
