@@ -36,9 +36,11 @@ else
   echo ">>> 종료할 프로세스 없음" >> $LOG
 fi
 
-# 4) 새 애플리케이션 실행
-echo ">>> 새 애플리케이션 실행: $JAR_NAME" >> $LOG
-nohup java -jar "$DEPLOY_PATH$JAR_NAME" >> $LOG 2>> $ERR_LOG &
+# 4) 새 애플리케이션 실행 (prod 프로파일 활성화)
+echo ">>> 새 애플리케이션 실행: $JAR_NAME (prod 프로파일)" >> $LOG
+nohup java -jar "$DEPLOY_PATH$JAR_NAME" \
+  --spring.profiles.active=prod \
+  >> $LOG 2>> $ERR_LOG &
 
 sleep 2
 echo "=== $(date '+%Y-%m-%d %H:%M:%S') DEPLOY END ===" >> $LOG
