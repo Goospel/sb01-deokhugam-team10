@@ -78,7 +78,7 @@ jobs:
       # 8) S3에 업로드
       - name: Upload to S3
         run: |
-          aws s3 cp ${GITHUB_SHA}.zip s3://${{ env.AWS_S3_BUCKET }}/${GITHUB_SHA}.zip
+          aws s3 cp deployment.zip s3://${{ env.AWS_S3_BUCKET }}/deployment.zip
         shell: bash
 
       # 9) CodeDeploy 배포 트리거
@@ -88,5 +88,6 @@ jobs:
             --application-name    ${{ env.AWS_CODE_DEPLOY_APPLICATION }} \
             --deployment-config-name CodeDeployDefault.AllAtOnce \
             --deployment-group-name   ${{ env.AWS_CODE_DEPLOY_GROUP }} \
-            --s3-location bucket=${{ env.AWS_S3_BUCKET }},key=${GITHUB_SHA}.zip,bundleType=zip
+            --s3-location bucket=${{ env.AWS_S3_BUCKET }},key=deployment.zip,bundleType=zip
         shell: bash
+
